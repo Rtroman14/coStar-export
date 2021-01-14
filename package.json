@@ -1,0 +1,16 @@
+{
+    "name": "reformatecsv",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "csv-parse": "^4.12.0",
+        "jsonexport": "^3.2.0"
+    }
+}
