@@ -1,16 +1,12 @@
 const fs = require("fs");
 const { reformatContact } = require("./src/helpers");
 const directoryFiles = fs.readdirSync("./inputJSON");
-// const writeJsonFile = require("./src/writeJson");
 const writeCsvFile = require("./src/writeCsv");
+const removeFile = require("./src/removeFiles");
 
 const coStarFile = directoryFiles.find((file) => file.includes("coStar"));
 
 const coStarData = require(`./inputJSON/${coStarFile}`);
-
-// TRUE OWNER EMAIL || NAME
-// OR
-// PROPERTY MANAGER || NAME
 
 let firstLiners = [];
 let allData = [];
@@ -39,8 +35,9 @@ coStarData.forEach((contact) => {
 const firstLinersString = new Set(firstLiners.map((e) => JSON.stringify(e)));
 const firstLinersUnique = Array.from(firstLinersString).map((e) => JSON.parse(e));
 
-// writeJsonFile(JSON.stringify(firstLinersUnique), "coStar_Emails");
-// writeJsonFile(JSON.stringify(allData), "coStar_allData");
-
 writeCsvFile(firstLinersUnique, "coStar_Emails");
 writeCsvFile(allData, "coStar_allData");
+
+setTimeout(() => {
+    removeFile("inputJSON");
+}, 750);
