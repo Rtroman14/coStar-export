@@ -3,13 +3,15 @@ const { reformatContact } = require("./src/helpers");
 const directoryFiles = fs.readdirSync("./inputJSON");
 const writeCsvFile = require("./src/writeCsv");
 const removeFile = require("./src/removeFiles");
+const neverBounce = require("./src/neverBounce");
 
 const coStarFile = directoryFiles.find((file) => file.includes("coStar"));
-
 const coStarData = require(`./inputJSON/${coStarFile}`);
 
 let firstLiners = [];
 let allData = [];
+
+const FILENAME = "";
 
 // filter coStar data
 coStarData.forEach((contact) => {
@@ -45,3 +47,6 @@ writeCsvFile(allData, "coStar_allData");
 setTimeout(() => {
     removeFile("inputJSON");
 }, 750);
+
+// send to NeverBounce to validate emails
+neverBounce(firstLinersWithEmails, FILENAME);
