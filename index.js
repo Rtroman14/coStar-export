@@ -35,7 +35,11 @@ coStarData.forEach((contact) => {
 const firstLinersString = new Set(firstLiners.map((e) => JSON.stringify(e)));
 const firstLinersUnique = Array.from(firstLinersString).map((e) => JSON.parse(e));
 
-writeCsvFile(firstLinersUnique, "coStar_Emails");
+const firstLinersWithEmails = firstLinersUnique.filter((contact) => contact.Email !== "");
+const firstLinersWithoutEmails = firstLinersUnique.filter((contact) => contact.Email === "");
+
+writeCsvFile(firstLinersWithEmails, "coStar_Emails");
+writeCsvFile(firstLinersWithoutEmails, "coStar_NoEmails");
 writeCsvFile(allData, "coStar_allData");
 
 setTimeout(() => {
