@@ -49,4 +49,4 @@ setTimeout(() => {
 }, 750);
 
 // send to NeverBounce to validate emails
-neverBounce(firstLinersWithEmails, FILENAME);
+// neverBounce(firstLinersWithEmails, FILENAME);
