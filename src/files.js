@@ -14,15 +14,17 @@ module.exports = {
         return combinedFiles;
     },
 
-    async removeFiles(directory) {
-        await fs.promises.readdir(directory, (err, files) => {
+    removeFiles(directory) {
+        fs.readdir(directory, (err, files) => {
             if (err) throw err;
 
             for (const file of files) {
-                fs.promises.unlink(path.join(directory, file), (err) => {
-                    if (err) throw err;
-                });
-                console.log("Removed", file);
+                if (!file.includes("placeholder")) {
+                    fs.unlink(path.join(directory, file), (err) => {
+                        if (err) throw err;
+                    });
+                    console.log("Removed", file);
+                }
             }
         });
     },

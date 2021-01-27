@@ -45,7 +45,9 @@ const FILENAME = "";
         writeCsvFile(firstLinersWithoutEmails, "coStar_NoEmails");
         writeCsvFile(allData, "coStar_allData");
 
-        await removeFiles("inputJSON");
+        setTimeout(() => {
+            removeFiles("inputJSON");
+        }, 750);
 
         // send to NeverBounce to validate emails
         // neverBounce(firstLinersWithEmails, FILENAME);
