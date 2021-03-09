@@ -51,7 +51,7 @@ module.exports = {
             newContact["Square Feet"] = "";
         }
 
-        newContact["FIRST LINE"] = "";
+        newContact["First Line"] = "";
 
         return newContact;
     },
