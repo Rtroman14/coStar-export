@@ -2,13 +2,19 @@ module.exports = {
     reformatContact(department, num, contact) {
         const newContact = {};
 
-        if ("image" in contact) {
-            newContact["Image"] = contact.image;
-        } else {
-            newContact["Image"] = "";
-        }
+        // if ("image" in contact) {
+        //     newContact["Image"] = contact.image;
+        // } else {
+        //     newContact["Image"] = "";
+        // }
 
-        newContact["Type"] = department;
+        // newContact["Type"] = department;
+
+        if (`${department}_Name_${num}` in contact) {
+            newContact["Full Name"] = contact[`${department}_Name_${num}`];
+        } else {
+            newContact["Full Name"] = "";
+        }
 
         if (`${department}_Name_${num}` in contact) {
             newContact["First Name"] = contact[`${department}_Name_${num}`].split(" ")[0];
