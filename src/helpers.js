@@ -27,10 +27,16 @@ module.exports = {
             newContact["Last Name"] = "";
         }
 
-        if (`${department}_Company` in contact) {
-            newContact["Company Name"] = contact[`${department}_Company`];
+        if (`${department}_Phone_${num}` in contact) {
+            newContact["Phone Number"] = contact[`${department}_Phone_${num}`];
         } else {
-            newContact["Company Name"] = "";
+            newContact["Phone Number"] = "";
+        }
+
+        if ("sf" in contact) {
+            newContact["Square Feet"] = contact.sf;
+        } else {
+            newContact["Square Feet"] = "";
         }
 
         if (`${department}_Email_${num}` in contact) {
@@ -39,22 +45,16 @@ module.exports = {
             newContact["Email"] = "";
         }
 
-        if (`${department}_Phone_${num}` in contact) {
-            newContact["Phone Number"] = contact[`${department}_Phone_${num}`];
+        if (`${department}_Company` in contact) {
+            newContact["Company Name"] = contact[`${department}_Company`];
         } else {
-            newContact["Phone Number"] = "";
+            newContact["Company Name"] = "";
         }
 
         if ("address" in contact) {
             newContact["Address"] = contact.address;
         } else {
             newContact["Address"] = "";
-        }
-
-        if ("sf" in contact) {
-            newContact["Square Feet"] = contact.sf;
-        } else {
-            newContact["Square Feet"] = "";
         }
 
         newContact["First Line"] = "";
