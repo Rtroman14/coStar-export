@@ -59,6 +59,8 @@ module.exports = {
 
         newContact["First Line"] = "";
 
+        newContact["Outreach"] = "Email";
+
         return newContact;
     },
 };
