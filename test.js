@@ -1,7 +1,3 @@
-const { combinedFiles } = require("./src/files");
+let phoneNumber = "(715) 252-5716 X123";
 
-(async () => {
-    let data = await combinedFiles("inputJSON");
-
-    console.log(data.length);
-})();
+console.log(phoneNumber.slice(0, phoneNumber.indexOf(" X")));
