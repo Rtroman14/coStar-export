@@ -58,6 +58,9 @@ const FILENAME = "";
 
         firstLinersUnique.forEach((contact) => {
             if (!checkDupicates.includes(contact["Phone Number"])) {
+                delete contact["First Line"];
+                // delete contact.Outreach;
+
                 if (contact["Phone Number"].includes("X")) {
                     let phoneNumber = contact["Phone Number"].slice(
                         0,

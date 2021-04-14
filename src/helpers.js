@@ -59,7 +59,7 @@ module.exports = {
 
         newContact["First Line"] = "";
 
-        newContact["Outreach"] = "Email";
+        // newContact["Outreach"] = "Email";
 
         return newContact;
     },
