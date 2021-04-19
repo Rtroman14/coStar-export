@@ -45,16 +45,16 @@ module.exports = {
             newContact["Email"] = "";
         }
 
-        if (`${department}_Company` in contact) {
-            newContact["Company Name"] = contact[`${department}_Company`];
-        } else {
-            newContact["Company Name"] = "";
-        }
-
         if ("address" in contact) {
             newContact["Address"] = contact.address;
         } else {
             newContact["Address"] = "";
+        }
+
+        if (`${department}_Company` in contact) {
+            newContact["Company Name"] = contact[`${department}_Company`];
+        } else {
+            newContact["Company Name"] = "";
         }
 
         newContact["First Line"] = "";
