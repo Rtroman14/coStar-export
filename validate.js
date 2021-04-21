@@ -98,14 +98,14 @@ const FILENAME = "";
         console.log("pNumbers total =", pNumbers.length);
         console.log("------- BEFORE -------\n");
 
-        // for (let contact of pNumbers) {
-        //     const carrierType = await lookup(contact["Phone Number"]);
-        //     carrierType.carrier.type === "mobile" &&
-        //         mNumbers.push(contact) &&
-        //         newMNumbers.push(contact);
-        // }
+        for (let contact of pNumbers) {
+            const carrierType = await lookup(contact["Phone Number"]);
+            carrierType.carrier.type === "mobile" &&
+                mNumbers.push(contact) &&
+                newMNumbers.push(contact);
+        }
 
-        // pNumbers = removeMNumbers(mNumbers, pNumbers);
+        pNumbers = removeMNumbers(mNumbers, pNumbers);
 
         writeCsvFile(allData, "coStar_allData");
         writeCsvFile(firstLinersWithEmails, "coStar_Emails");
