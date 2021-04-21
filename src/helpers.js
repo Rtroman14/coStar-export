@@ -63,4 +63,12 @@ module.exports = {
 
         return newContact;
     },
+
+    removeMNumbers(mNumbers, pNumbers) {
+        // remove mNumbers from pNumbers
+        let pNumbersString = pNumbers.map((e) => JSON.stringify(e));
+        let mNumbersString = mNumbers.map((e) => JSON.stringify(e));
+        pNumbersString = pNumbersString.filter((contact) => !mNumbersString.includes(contact));
+        return Array.from(pNumbersString).map((e) => JSON.parse(e));
+    },
 };

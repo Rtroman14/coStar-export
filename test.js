@@ -1,3 +1,13 @@
-let phoneNumber = "(715) 252-5716 X123";
+const lookup = require("./src/validateNumber");
 
-console.log(phoneNumber.slice(0, phoneNumber.indexOf(" X")));
+let phoneNumber = "(715) 252-5716";
+
+(async () => {
+    try {
+        const res = await lookup(phoneNumber);
+
+        console.log(res);
+    } catch (error) {
+        console.log(error);
+    }
+})();

@@ -1,6 +1,7 @@
 const { combinedFiles, removeFiles } = require("./src/files");
-const { reformatContact } = require("./src/helpers");
+const { reformatContact, removeMNumbers } = require("./src/helpers");
 const writeCsvFile = require("./src/writeCsv");
+const lookup = require("./src/validateNumber");
 // const neverBounce = require("./src/neverBounce");
 
 let firstLiners = [];
@@ -53,6 +54,7 @@ const FILENAME = "";
 
         let pNumbers = [];
         let mNumbers = [];
+        let newMNumbers = [];
 
         checkDupicates = [];
 
@@ -91,10 +93,31 @@ const FILENAME = "";
             checkDupicates.push(contact["Phone Number"]);
         });
 
+        console.log("\n------- BEFORE -------");
+        console.log("mNumbers total =", mNumbers.length);
+        console.log("pNumbers total =", pNumbers.length);
+        console.log("------- BEFORE -------\n");
+
+        for (let contact of pNumbers) {
+            const carrierType = await lookup(contact["Phone Number"]);
+            carrierType.carrier.type === "mobile" &&
+                mNumbers.push(contact) &&
+                newMNumbers.push(contact);
+        }
+
+        pNumbers = removeMNumbers(mNumbers, pNumbers);
+
         writeCsvFile(allData, "coStar_allData");
         writeCsvFile(firstLinersWithEmails, "coStar_Emails");
         writeCsvFile(pNumbers, "coStar_pNumbers");
         writeCsvFile(mNumbers, "coStar_mNumbers");
+        writeCsvFile(newMNumbers, "coStar_newMNumbers");
+
+        console.log("------- AFTER -------");
+        console.log("mNumbers total =", mNumbers.length);
+        console.log("pNumbers total =", pNumbers.length);
+        console.log("newMNumbers total =", newMNumbers.length);
+        console.log("------- AFTER -------\n");
 
         setTimeout(() => {
             removeFiles("inputJSON");
