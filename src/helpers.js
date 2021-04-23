@@ -39,16 +39,16 @@ module.exports = {
             newContact["Square Feet"] = "";
         }
 
-        if (`${department}_Email_${num}` in contact) {
-            newContact["Email"] = contact[`${department}_Email_${num}`];
-        } else {
-            newContact["Email"] = "";
-        }
-
         if ("address" in contact) {
             newContact["Address"] = contact.address;
         } else {
             newContact["Address"] = "";
+        }
+
+        if (`${department}_Email_${num}` in contact) {
+            newContact["Email"] = contact[`${department}_Email_${num}`];
+        } else {
+            newContact["Email"] = "";
         }
 
         if (`${department}_Company` in contact) {
