@@ -1,4 +1,4 @@
-const allData = require("./inputJSON/scanned-contacts.json");
+const allData = require("./inputJSON/data.json");
 const lookup = require("./src/validateNumber");
 const writeCsvFile = require("./src/writeCsv");
 

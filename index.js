@@ -100,27 +100,27 @@ const FILENAME = "";
 
         total = 0;
 
-        for (let contact of pNumbers) {
-            total++;
+        // for (let contact of pNumbers) {
+        //     total++;
 
-            try {
-                const carrierType = await lookup(contact["Phone Number"]);
-                carrierType.carrier.type === "mobile" &&
-                    mNumbers.push(contact) &&
-                    newMNumbers.push(contact);
-            } catch (error) {
-                console.log("\n ---------- ERROR START ----------\n");
-                console.log(error);
+        //     try {
+        //         const carrierType = await lookup(contact["Phone Number"]);
+        //         carrierType.carrier.type === "mobile" &&
+        //             mNumbers.push(contact) &&
+        //             newMNumbers.push(contact);
+        //     } catch (error) {
+        //         console.log("\n ---------- ERROR START ----------\n");
+        //         console.log(error);
 
-                console.log(contact);
-                console.log("\n ---------- ERROR END ----------\n");
-            }
+        //         console.log(contact);
+        //         console.log("\n ---------- ERROR END ----------\n");
+        //     }
 
-            total % 50 === 0 &&
-                console.log(`Contacts left to validate: ${pNumbers.length - total}`);
-        }
+        //     total % 50 === 0 &&
+        //         console.log(`Contacts left to validate: ${pNumbers.length - total}`);
+        // }
 
-        pNumbers = removeMNumbers(mNumbers, pNumbers);
+        // pNumbers = removeMNumbers(mNumbers, pNumbers);
 
         writeCsvFile(allData, "coStar_allData");
         writeCsvFile(firstLinersWithEmails, "coStar_Emails");
