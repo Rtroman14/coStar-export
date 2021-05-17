@@ -93,6 +93,8 @@ const FILENAME = "";
             checkDupicates.push(contact["Phone Number"]);
         });
 
+        const pNumbersLength = pNumbers.length;
+
         console.log("\n------- BEFORE -------");
         console.log("mNumbers total =", mNumbers.length);
         console.log("pNumbers total =", pNumbers.length);
@@ -122,16 +124,20 @@ const FILENAME = "";
 
         pNumbers = removeMNumbers(mNumbers, pNumbers);
 
-        writeCsvFile(allData, "coStar_allData");
+        // writeCsvFile(allData, "coStar_allData");
         writeCsvFile(firstLinersWithEmails, "coStar_Emails");
         writeCsvFile(pNumbers, "coStar_pNumbers");
         writeCsvFile(mNumbers, "coStar_mNumbers");
-        writeCsvFile(newMNumbers, "coStar_newMNumbers");
+        // writeCsvFile(newMNumbers, "coStar_newMNumbers");
 
         console.log("------- AFTER -------");
         console.log("mNumbers total =", mNumbers.length);
         console.log("pNumbers total =", pNumbers.length);
-        console.log("newMNumbers total =", newMNumbers.length);
+        // console.log("newMNumbers total =", newMNumbers.length);
+        console.log(
+            "Percent of mobile numbers in pNumbers =",
+            (newMNumbers.length / pNumbersLength).toFixed(2)
+        );
         console.log("------- AFTER -------\n");
 
         setTimeout(() => {
