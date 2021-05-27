@@ -52,6 +52,8 @@ const FILENAME = "";
             }
         });
 
+        writeCsvFile(firstLinersWithEmails, "coStar_Emails");
+
         let pNumbers = [];
         let mNumbers = [];
         let newMNumbers = [];
@@ -124,8 +126,6 @@ const FILENAME = "";
 
         pNumbers = removeMNumbers(mNumbers, pNumbers);
 
-        // writeCsvFile(allData, "coStar_allData");
-        writeCsvFile(firstLinersWithEmails, "coStar_Emails");
         writeCsvFile(pNumbers, "coStar_pNumbers");
         writeCsvFile(mNumbers, "coStar_mNumbers");
         // writeCsvFile(newMNumbers, "coStar_newMNumbers");
@@ -143,9 +143,6 @@ const FILENAME = "";
         setTimeout(() => {
             removeFiles("inputJSON");
         }, 750);
-
-        // send to NeverBounce to validate emails
-        // neverBounce(firstLinersWithEmails, FILENAME);
     } catch (error) {
         console.log("ERROR ---", error);
     }
