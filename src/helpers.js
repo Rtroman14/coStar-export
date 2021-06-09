@@ -1,3 +1,7 @@
+require("dotenv").config();
+
+const axios = require("axios");
+
 module.exports = {
     reformatContact(department, num, contact) {
         const newContact = {};
@@ -70,5 +74,26 @@ module.exports = {
         let mNumbersString = mNumbers.map((e) => JSON.stringify(e));
         pNumbersString = pNumbersString.filter((contact) => !mNumbersString.includes(contact));
         return Array.from(pNumbersString).map((e) => JSON.parse(e));
+    },
+
+    async checkDNC(phoneNumber) {
+        try {
+            const res = await axios({
+                method: "post",
+                url: "https://app.realvalidito.com/tcpaValidationLookup",
+                data: {
+                    uid: process.env.REALVALIDITO_UID,
+                    auth_key: process.env.REALVALIDITO_AUTH_KEY,
+                    // phones: ["7152525716"], // Array of 10 digit phone numbers of USA / CANADA
+                    // phones: ["3032635034"],
+                    phones: [phoneNumber],
+                },
+            });
+
+            console.log(res.data.Response);
+            return res.data.Response.Blacklisted.length > 0 ? true : false;
+        } catch (error) {
+            console.log(error);
+        }
     },
 };

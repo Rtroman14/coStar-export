@@ -1,12 +1,10 @@
-const lookup = require("./src/validateNumber");
-
-let phoneNumber = "(715) 252-5716";
+const { checkDNC } = require("./src/helpers");
 
 (async () => {
     try {
-        const res = await lookup(phoneNumber);
+        const isDNC = await checkDNC("3032635034");
 
-        console.log(res);
+        console.log(isDNC);
     } catch (error) {
         console.log(error);
     }

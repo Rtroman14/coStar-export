@@ -1,5 +1,5 @@
 const { combinedFiles, removeFiles } = require("./src/files");
-const { reformatContact, removeMNumbers } = require("./src/helpers");
+const { reformatContact, removeMNumbers, checkDNC } = require("./src/helpers");
 const writeCsvFile = require("./src/writeCsv");
 const lookup = require("./src/validateNumber");
 // const neverBounce = require("./src/neverBounce");
@@ -126,7 +126,7 @@ const FILENAME = "";
 
         pNumbers = removeMNumbers(mNumbers, pNumbers);
 
-        writeCsvFile(pNumbers, "coStar_pNumbers");
+        // writeCsvFile(pNumbers, "coStar_pNumbers");
         writeCsvFile(mNumbers, "coStar_mNumbers");
         // writeCsvFile(newMNumbers, "coStar_newMNumbers");
 
