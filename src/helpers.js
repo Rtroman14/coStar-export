@@ -77,23 +77,41 @@ module.exports = {
     },
 
     async checkDNC(phoneNumber) {
-        try {
-            const res = await axios({
-                method: "post",
-                url: "https://app.realvalidito.com/tcpaValidationLookup",
-                data: {
-                    uid: process.env.REALVALIDITO_UID,
-                    auth_key: process.env.REALVALIDITO_AUTH_KEY,
-                    // phones: ["7152525716"], // Array of 10 digit phone numbers of USA / CANADA
-                    // phones: ["3032635034"],
-                    phones: [phoneNumber],
-                },
-            });
+        phoneNumber = phoneNumber.replace(/\D+/g, "");
 
-            console.log(res.data.Response);
-            return res.data.Response.Blacklisted.length > 0 ? true : false;
+        try {
+            const res = await axios.get(
+                `https://api.apeiron.io/v2/numbers/do_not_call/${phoneNumber}`,
+                {
+                    auth: {
+                        username: "ryan@summamedia.co",
+                        password: process.env.APEIRON_KEY,
+                    },
+                }
+            );
+            return res.data;
         } catch (error) {
             console.log(error);
+            return false;
         }
     },
+
+    // async checkDNC(phoneNumber) {
+    //     try {
+    //         const res = await axios({
+    //             method: "post",
+    //             url: "https://app.realvalidito.com/tcpaValidationLookup",
+    //             data: {
+    //                 uid: process.env.REALVALIDITO_UID,
+    //                 auth_key: process.env.REALVALIDITO_AUTH_KEY,
+    //                 phones: [phoneNumber],
+    //             },
+    //         });
+
+    //         console.log(res.data.Response);
+    //         return res.data.Response.Blacklisted.length > 0 ? true : false;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // },
 };

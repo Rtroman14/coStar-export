@@ -56,7 +56,8 @@ const FILENAME = "";
 
         let pNumbers = [];
         let mNumbers = [];
-        let newMNumbers = [];
+        let validatedNumbers = [];
+        let dncList = [];
 
         checkDupicates = [];
 
@@ -95,8 +96,6 @@ const FILENAME = "";
             checkDupicates.push(contact["Phone Number"]);
         });
 
-        const pNumbersLength = pNumbers.length;
-
         console.log("\n------- BEFORE -------");
         console.log("mNumbers total =", mNumbers.length);
         console.log("pNumbers total =", pNumbers.length);
@@ -104,14 +103,24 @@ const FILENAME = "";
 
         total = 0;
 
+        // validate pNumbers
         for (let contact of pNumbers) {
             total++;
 
             try {
                 const carrierType = await lookup(contact["Phone Number"]);
-                carrierType.carrier.type === "mobile" &&
-                    mNumbers.push(contact) &&
-                    newMNumbers.push(contact);
+
+                if (carrierType.carrier.type === "mobile") {
+                    const isDNC = await checkDNC(contact["Phone Number"]);
+
+                    if (isDNC) {
+                        dncList.push(contact);
+                    } else {
+                        validatedNumbers.push(contact);
+                    }
+
+                    // mNumbers.push(contact);
+                }
             } catch (error) {
                 console.log("\n ---------- ERROR START ----------\n");
                 console.log(error);
@@ -123,21 +132,29 @@ const FILENAME = "";
             total % 50 === 0 &&
                 console.log(`Contacts left to validate: ${pNumbers.length - total}`);
         }
-
         pNumbers = removeMNumbers(mNumbers, pNumbers);
 
-        // writeCsvFile(pNumbers, "coStar_pNumbers");
-        writeCsvFile(mNumbers, "coStar_mNumbers");
-        // writeCsvFile(newMNumbers, "coStar_newMNumbers");
+        // validate mNumbers
+        for (let contact of mNumbers) {
+            try {
+                const isDNC = await checkDNC(contact["Phone Number"]);
+
+                if (isDNC) {
+                    dncList.push(contact);
+                } else {
+                    validatedNumbers.push(contact);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        writeCsvFile(validatedNumbers, "coStar_validatedNumbers");
+        // writeCsvFile(mNumbers, "coStar_mNumbers");
 
         console.log("------- AFTER -------");
-        console.log("mNumbers total =", mNumbers.length);
-        console.log("pNumbers total =", pNumbers.length);
-        // console.log("newMNumbers total =", newMNumbers.length);
-        console.log(
-            "Percent of mobile numbers in pNumbers =",
-            (newMNumbers.length / pNumbersLength).toFixed(2)
-        );
+        console.log("validatedNumbers total =", validatedNumbers.length);
+        console.log("dncList total = ", dncList.length);
         console.log("------- AFTER -------\n");
 
         setTimeout(() => {
