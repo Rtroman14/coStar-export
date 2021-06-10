@@ -56,8 +56,8 @@ const FILENAME = "";
 
         let pNumbers = [];
         let mNumbers = [];
-        let validatedNumbers = [];
-        let dncList = [];
+        // let validatedNumbers = [];
+        // let dncList = [];
 
         checkDupicates = [];
 
@@ -117,17 +117,17 @@ const FILENAME = "";
                 const carrierType = await lookup(contact["Phone Number"]);
 
                 if (carrierType.carrier.type === "mobile") {
-                    numbers.mobile++;
+                    // numbers.mobile++;
 
-                    const isDNC = await checkDNC(contact["Phone Number"]);
+                    // const isDNC = await checkDNC(contact["Phone Number"]);
 
-                    if (isDNC) {
-                        dncList.push(contact);
-                    } else {
-                        validatedNumbers.push(contact);
-                    }
+                    // if (isDNC) {
+                    //     dncList.push(contact);
+                    // } else {
+                    // validatedNumbers.push(contact);
+                    // }
 
-                    // mNumbers.push(contact);
+                    mNumbers.push(contact);
                 }
             } catch (error) {
                 console.log("\n ---------- ERROR START ----------\n");
@@ -142,31 +142,29 @@ const FILENAME = "";
         }
         pNumbers = removeMNumbers(mNumbers, pNumbers);
 
-        // validate mNumbers
-        for (let contact of mNumbers) {
-            try {
-                const isDNC = await checkDNC(contact["Phone Number"]);
+        // // validate mNumbers
+        // for (let contact of mNumbers) {
+        //     try {
+        //         const isDNC = await checkDNC(contact["Phone Number"]);
 
-                if (isDNC) {
-                    dncList.push(contact);
-                } else {
-                    validatedNumbers.push(contact);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        //         if (isDNC) {
+        //             dncList.push(contact);
+        //         } else {
+        //             validatedNumbers.push(contact);
+        //         }
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
 
         writeCsvFile(validatedNumbers, "coStar_validatedNumbers");
-        writeCsvFile(dncList, "coStar_dncList");
+        // writeCsvFile(dncList, "coStar_dncList");
         // writeCsvFile(mNumbers, "coStar_mNumbers");
 
         console.log("------- AFTER -------");
-        numbers.dnc = dncList.length;
+        // numbers.dnc = dncList.length;
         numbers.valid = validatedNumbers.length;
-        console.log(numbers);
-        console.log("validatedNumbers total =", validatedNumbers);
-        console.log("------- AFTER -------\n");
+        // console.log(numbers);
 
         setTimeout(() => {
             removeFiles("inputJSON");
