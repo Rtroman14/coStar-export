@@ -2,7 +2,7 @@ const { checkDNC } = require("./src/helpers");
 
 (async () => {
     try {
-        const isDNC = await checkDNC("(970) 481-9905");
+        const isDNC = await checkDNC("(816) 730-9445");
         // const isDNC = await checkDNC("(303) 263-5034");
         console.log(isDNC);
 

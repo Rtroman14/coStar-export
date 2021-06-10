@@ -101,6 +101,12 @@ const FILENAME = "";
         console.log("pNumbers total =", pNumbers.length);
         console.log("------- BEFORE -------\n");
 
+        let numbers = {
+            mobile: mNumbers.length,
+            dnc: 0,
+            valid: 0,
+        };
+
         total = 0;
 
         // validate pNumbers
@@ -111,6 +117,8 @@ const FILENAME = "";
                 const carrierType = await lookup(contact["Phone Number"]);
 
                 if (carrierType.carrier.type === "mobile") {
+                    numbers.mobile++;
+
                     const isDNC = await checkDNC(contact["Phone Number"]);
 
                     if (isDNC) {
@@ -150,11 +158,14 @@ const FILENAME = "";
         }
 
         writeCsvFile(validatedNumbers, "coStar_validatedNumbers");
+        writeCsvFile(dncList, "coStar_dncList");
         // writeCsvFile(mNumbers, "coStar_mNumbers");
 
         console.log("------- AFTER -------");
-        console.log("validatedNumbers total =", validatedNumbers.length);
-        console.log("dncList total = ", dncList.length);
+        numbers.dnc = dncList.length;
+        numbers.valid = validatedNumbers.length;
+        console.log(numbers);
+        console.log("validatedNumbers total =", validatedNumbers);
         console.log("------- AFTER -------\n");
 
         setTimeout(() => {
