@@ -101,11 +101,11 @@ const FILENAME = "";
         console.log("pNumbers total =", pNumbers.length);
         console.log("------- BEFORE -------\n");
 
-        let numbers = {
-            mobile: mNumbers.length,
-            dnc: 0,
-            valid: 0,
-        };
+        // let numbers = {
+        //     mobile: mNumbers.length,
+        //     dnc: 0,
+        //     valid: 0,
+        // };
 
         total = 0;
 
@@ -157,14 +157,16 @@ const FILENAME = "";
         //     }
         // }
 
-        writeCsvFile(validatedNumbers, "coStar_validatedNumbers");
+        // writeCsvFile(validatedNumbers, "coStar_validatedNumbers");
         // writeCsvFile(dncList, "coStar_dncList");
-        // writeCsvFile(mNumbers, "coStar_mNumbers");
+        writeCsvFile(mNumbers, "coStar_mNumbers");
 
         console.log("------- AFTER -------");
         // numbers.dnc = dncList.length;
-        numbers.valid = validatedNumbers.length;
+        // numbers.valid = mNumbers.length;
         // console.log(numbers);
+        console.log("mNumbers total =", mNumbers.length);
+        console.log("pNumbers total =", pNumbers.length);
 
         setTimeout(() => {
             removeFiles("inputJSON");
