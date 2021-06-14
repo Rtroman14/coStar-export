@@ -49,6 +49,30 @@ module.exports = {
             newContact["Address"] = "";
         }
 
+        if ("street" in contact) {
+            newContact["Street"] = contact.street;
+        } else {
+            newContact["Street"] = "";
+        }
+
+        if ("city" in contact) {
+            newContact["City"] = contact.city;
+        } else {
+            newContact["City"] = "";
+        }
+
+        if ("state" in contact) {
+            newContact["State"] = contact.state;
+        } else {
+            newContact["State"] = "";
+        }
+
+        if ("zip" in contact) {
+            newContact["Zip"] = contact.zip;
+        } else {
+            newContact["Zip"] = "";
+        }
+
         if (`${department}_Email_${num}` in contact) {
             newContact["Email"] = contact[`${department}_Email_${num}`];
         } else {
