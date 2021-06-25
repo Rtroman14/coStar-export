@@ -108,9 +108,9 @@ const FILENAME = "";
         writeCsvFile(emailContacts, "reonomy_emails");
         writeCsvFile(mobileContacts, "reonomy_mobile");
 
-        // setTimeout(() => {
-        //     removeFiles("inputJSON");
-        // }, 750);
+        setTimeout(() => {
+            removeFiles("inputJSON");
+        }, 750);
     } catch (error) {
         console.log("ERROR ---", error);
     }
