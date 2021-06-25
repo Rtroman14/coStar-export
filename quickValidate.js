@@ -23,7 +23,9 @@ let total = 0;
                 console.log("\n ---------- ERROR END ----------\n");
             }
 
-            // data["Phone Number"].includes("407") ? mNumbers.push(data) : pNumbers.push(data);
+            // data["Phone Number"].toString().includes("407")
+            //     ? mNumbers.push(data)
+            //     : pNumbers.push(data);
 
             total % 50 === 0 && console.log(`Contacts left to validate: ${allData.length - total}`);
         }
