@@ -1,47 +1,144 @@
-let property = {
-    address: "123 Winters Dr, Colorado Springs, CO 80907",
-    street: "123 Winters Dr",
-    city: "Colorado Springs",
-    state: "CO",
-    zip: "80907",
-    yearBuild: "2018",
-    yearRenovated: "2018",
-    buildingArea: "12,000",
-    type: "Industrial | Warehouse",
-    companyName: "J K Properties Llc",
-    companyAddress: "123 Winters Dr, Colorado Springs, CO 80907",
-    "person-0_name": "Josiah Baker",
-    "person-0_email": "siah@excite.com",
-    "person-0_mobile-0": "719-216-9026",
-    "person-0_mobile-1": "719-216-9026",
-    "person-0_mobile-2": "719-216-9026",
-    "person-1_name": "Brandy Lancaster",
-    "person-1_email": "",
-    "person-2_name": "Keith Kantor",
-    "person-2_email": "",
-    "person-2_mobile-0": "719-216-9026",
-    "person-2_mobile-1": "719-216-9026",
-    "person-3_name": "Riki Baker",
-    "person-3_email": "",
-};
+const { combinedFiles, removeFiles } = require("./src/files");
+const { reformatContact, removeMNumbers, checkDNC } = require("./src/helpers");
+const writeCsvFile = require("./src/writeCsv");
+const lookup = require("./src/validateNumber");
 
-let num = 0;
+let contacts = [];
 
-let mobileKeys = [];
-for (let key in property) {
-    key.includes(`person-${num}_mobile`) && mobileKeys.push(key);
-}
+(async () => {
+    try {
+        const coStarData = await combinedFiles("inputJSON");
 
-console.log(mobileKeys);
+        // organize coStar data
+        coStarData.forEach((contact) => {
+            for (let i = 1; i < 4; i++) {
+                if (`trueOwner_Email_${i}` in contact) {
+                    contacts.push(reformatContact("trueOwner", i, contact));
+                }
+                if (`propertyManagement_Email_${i}` in contact) {
+                    contacts.push(reformatContact("propertyManagement", i, contact));
+                }
+                if (`previousTrueOwner_Email_${i}` in contact) {
+                    contacts.push(reformatContact("previousTrueOwner", i, contact));
+                }
+                if (`trueOwner_Name_${i}` in contact) {
+                    contacts.push(reformatContact("trueOwner", i, contact));
+                }
+                if (`propertyManagement_Name_${i}` in contact) {
+                    contacts.push(reformatContact("propertyManagement", i, contact));
+                }
+                if (`previousTrueOwner_Name_${i}` in contact) {
+                    contacts.push(reformatContact("previousTrueOwner", i, contact));
+                }
+            }
+        });
 
-if (mobileKeys.length) {
-    console.log("TRUEEE");
-    // loop keys and push
-    for (let [index, numMobile] of mobileKeys.entries()) {
-        console.log({ index });
-        console.log({ numMobile });
+        // remove duplicates
+        const contactsJson = new Set(contacts.map((e) => JSON.stringify(e)));
+        contacts = Array.from(contactsJson).map((e) => JSON.parse(e));
+
+        console.log("contacts total =", contacts.length);
+
+        let nameList = [];
+        let pNumbers = [];
+        let mNumbers = [];
+
+        contacts.forEach((contact) => {
+            if (contact["Phone Number"] !== "" && !nameList.includes(contact["Full Name"])) {
+                delete contact["First Line"];
+
+                if (contact["Phone Number"].includes("X")) {
+                    let phoneNumber = contact["Phone Number"].slice(
+                        0,
+                        contact["Phone Number"].indexOf(" X")
+                    );
+
+                    pNumbers.push({
+                        ...contact,
+                        "Phone Number": phoneNumber,
+                    });
+                }
+
+                if (contact["Phone Number"].includes("(p)")) {
+                    let phoneNumber = contact["Phone Number"].replace(" (p)", "");
+
+                    pNumbers.push({
+                        ...contact,
+                        "Phone Number": phoneNumber,
+                    });
+                }
+
+                if (contact["Phone Number"].includes("(m)")) {
+                    let phoneNumber = contact["Phone Number"].replace(" (m)", "");
+
+                    mNumbers.push({
+                        ...contact,
+                        "Phone Number": phoneNumber,
+                    });
+                    nameList.push(contact["Full Name"]);
+                }
+            }
+        });
+
+        total = 0;
+
+        // validate pNumbers
+        for (let contact of pNumbers) {
+            total++;
+
+            if (!nameList.includes(contact["Full Name"])) {
+                try {
+                    const carrierType = await lookup(contact["Phone Number"]);
+
+                    if (carrierType.carrier.type === "mobile") {
+                        // const isDNC = await checkDNC(contact["Phone Number"]);
+
+                        // if (isDNC) {
+                        //     dncList.push(contact);
+                        // } else {
+                        // validatedNumbers.push(contact);
+                        // }
+
+                        mNumbers.push(contact);
+                        nameList.push(contact["Full Name"]);
+                    }
+                } catch (error) {
+                    console.log(
+                        `Error validating: ${contact["Phone Number"]} --- ${error.message}`
+                    );
+                }
+
+                total % 50 === 0 &&
+                    console.log(`Contacts left to validate: ${pNumbers.length - total}`);
+            }
+        }
+        // pNumbers = removeMNumbers(mNumbers, pNumbers);
+
+        let emailList = [];
+
+        const emailContacts = contacts.filter((contact) => {
+            if (
+                contact.Email !== "" &&
+                !emailList.includes(contact.Email) &&
+                !nameList.includes(contact["Full Name"])
+            ) {
+                emailList.push(contact.Email);
+                nameList.push(contact["Full Name"]);
+
+                return contact;
+            }
+        });
+
+        writeCsvFile(emailContacts, "coStar_emails");
+        writeCsvFile(mNumbers, "coStar_mobile");
+
+        console.log("mNumbers total =", mNumbers.length);
+        console.log("emailContacts total =", emailContacts.length);
+
+        // setTimeout(() => {
+        //     removeFiles("inputJSON");
+        // }, 750);
+    } catch (error) {
+        console.log("ERROR ---", error);
     }
-} else {
-    console.log("FALSEEE");
-    // push
-}
+})();

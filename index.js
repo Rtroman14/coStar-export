@@ -2,12 +2,9 @@ const { combinedFiles, removeFiles } = require("./src/files");
 const { reformatContact, removeMNumbers, checkDNC } = require("./src/helpers");
 const writeCsvFile = require("./src/writeCsv");
 const lookup = require("./src/validateNumber");
-// const neverBounce = require("./src/neverBounce");
 
 let firstLiners = [];
 let allData = [];
-
-const FILENAME = "";
 
 (async () => {
     try {
@@ -96,17 +93,6 @@ const FILENAME = "";
             checkDupicates.push(contact["Phone Number"]);
         });
 
-        console.log("\n------- BEFORE -------");
-        console.log("mNumbers total =", mNumbers.length);
-        console.log("pNumbers total =", pNumbers.length);
-        console.log("------- BEFORE -------\n");
-
-        // let numbers = {
-        //     mobile: mNumbers.length,
-        //     dnc: 0,
-        //     valid: 0,
-        // };
-
         total = 0;
 
         // validate pNumbers
@@ -142,36 +128,30 @@ const FILENAME = "";
         }
         pNumbers = removeMNumbers(mNumbers, pNumbers);
 
-        // // validate mNumbers
-        // for (let contact of mNumbers) {
-        //     try {
-        //         const isDNC = await checkDNC(contact["Phone Number"]);
+        writeCsvFile(emailContacts, "coStar_emails");
+        writeCsvFile(mNumbers, "coStar_mobile");
 
-        //         if (isDNC) {
-        //             dncList.push(contact);
-        //         } else {
-        //             validatedNumbers.push(contact);
-        //         }
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // }
-
-        // writeCsvFile(validatedNumbers, "coStar_validatedNumbers");
-        // writeCsvFile(dncList, "coStar_dncList");
-        writeCsvFile(mNumbers, "coStar_mNumbers");
-
-        console.log("------- AFTER -------");
-        // numbers.dnc = dncList.length;
-        // numbers.valid = mNumbers.length;
-        // console.log(numbers);
         console.log("mNumbers total =", mNumbers.length);
-        console.log("pNumbers total =", pNumbers.length);
 
-        setTimeout(() => {
-            removeFiles("inputJSON");
-        }, 750);
+        // setTimeout(() => {
+        //     removeFiles("inputJSON");
+        // }, 750);
     } catch (error) {
         console.log("ERROR ---", error);
     }
 })();
+
+// // validate mNumbers
+// for (let contact of mNumbers) {
+//     try {
+//         const isDNC = await checkDNC(contact["Phone Number"]);
+
+//         if (isDNC) {
+//             dncList.push(contact);
+//         } else {
+//             validatedNumbers.push(contact);
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
