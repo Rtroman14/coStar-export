@@ -39,7 +39,7 @@ let contacts = [];
 
         console.log("contacts total =", contacts.length);
 
-        let nameList = [];
+        let nameList = []; // every mobile number
         let pNumbers = [];
         let mNumbers = [];
 
@@ -82,7 +82,7 @@ let contacts = [];
 
         total = 0;
 
-        // validate pNumbers
+        // check if pNumbers are mobile
         for (let contact of pNumbers) {
             total++;
 
@@ -91,14 +91,6 @@ let contacts = [];
                     const carrierType = await lookup(contact["Phone Number"]);
 
                     if (carrierType.carrier.type === "mobile") {
-                        // const isDNC = await checkDNC(contact["Phone Number"]);
-
-                        // if (isDNC) {
-                        //     dncList.push(contact);
-                        // } else {
-                        // validatedNumbers.push(contact);
-                        // }
-
                         mNumbers.push(contact);
                         nameList.push(contact["Full Name"]);
                     }
@@ -107,12 +99,11 @@ let contacts = [];
                         `Error validating: ${contact["Phone Number"]} --- ${error.message}`
                     );
                 }
-
-                total % 50 === 0 &&
-                    console.log(`Contacts left to validate: ${pNumbers.length - total}`);
             }
+
+            total % 50 === 0 &&
+                console.log(`Contacts left to validate: ${pNumbers.length - total}`);
         }
-        // pNumbers = removeMNumbers(mNumbers, pNumbers);
 
         let emailList = [];
 
@@ -135,9 +126,9 @@ let contacts = [];
         console.log("mNumbers total =", mNumbers.length);
         console.log("emailContacts total =", emailContacts.length);
 
-        // setTimeout(() => {
-        //     removeFiles("inputJSON");
-        // }, 750);
+        setTimeout(() => {
+            removeFiles("inputJSON");
+        }, 750);
     } catch (error) {
         console.log("ERROR ---", error);
     }
