@@ -75,6 +75,7 @@ let contacts = [];
                     mNumbers.push({
                         ...contact,
                         "Phone Number": phoneNumber,
+                        Outreach: "Text",
                     });
                     nameList.push(contact["Full Name"]);
                 }
@@ -92,7 +93,10 @@ let contacts = [];
                     const carrierType = await lookup(contact["Phone Number"]);
 
                     if (carrierType.carrier.type === "mobile") {
-                        mNumbers.push(contact);
+                        mNumbers.push({
+                            ...contact,
+                            Outreach: "Text",
+                        });
                         nameList.push(contact["Full Name"]);
                     }
                 } catch (error) {
@@ -117,7 +121,11 @@ let contacts = [];
                 emailList.push(contact.Email);
                 nameList.push(contact["Full Name"]);
 
-                return contact;
+                // return contact;
+                return {
+                    ...contact,
+                    Outreach: "Email",
+                };
             }
         });
 

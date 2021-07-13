@@ -48,6 +48,7 @@ const FILENAME = "";
                         person["Year Renovated"] = property.yearRenovated || "";
                         person["Building Type"] = property.type || "";
                         person.Priority = 1;
+                        person.Outreach = "Text";
                     }
                 } else {
                     person["Full Name"] = property[`person-${num}_name`] || "";
@@ -68,6 +69,7 @@ const FILENAME = "";
                     person["Year Renovated"] = property.yearRenovated || "";
                     person["Building Type"] = property.type || "";
                     person.Priority = 1;
+                    person.Outreach = "Email";
                 }
 
                 contacts.push(person);

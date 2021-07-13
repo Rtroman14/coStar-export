@@ -9,6 +9,8 @@ let total = 0;
 
 (async () => {
     try {
+        console.log("Total numbers =", allData.length);
+
         for (let data of allData) {
             total++;
 
@@ -34,7 +36,6 @@ let total = 0;
         console.log("pNumbers total =", pNumbers.length);
 
         writeCsvFile(mNumbers, "mNumbers");
-        writeCsvFile(pNumbers, "pNumbers");
     } catch (error) {
         console.log(error);
     }
