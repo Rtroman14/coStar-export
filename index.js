@@ -112,7 +112,7 @@ let contacts = [];
 
         let emailList = [];
 
-        const emailContacts = contacts.filter((contact) => {
+        let emailContacts = contacts.filter((contact) => {
             if (
                 contact.Email !== "" &&
                 !emailList.includes(contact.Email) &&
@@ -121,13 +121,17 @@ let contacts = [];
                 emailList.push(contact.Email);
                 nameList.push(contact["Full Name"]);
 
-                // return contact;
-                return {
-                    ...contact,
-                    Outreach: "Email",
-                };
+                return contact;
+
+                // CAN'T MUTATE WITH FILTER METHOD
+                // return {
+                //     ...contact,
+                //     Outreach: "Email",
+                // };
             }
         });
+
+        emailContacts = emailContacts.map((contact) => ({ ...contact, Outreach: "Email" }));
 
         writeCsvFile(emailContacts, "coStar_emails");
         writeCsvFile(mNumbers, "coStar_mobile");
