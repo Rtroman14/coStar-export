@@ -35,19 +35,21 @@ const FILENAME = "";
                             property[`person-${num}_name`].split(" ").slice(1).join(" ") || "";
                         person["Phone Number"] =
                             property[`person-${num}_mobile-${numMobile}`] || "";
-                        person["Square Feet"] = property.buildingArea || "";
-                        person.Address = property.address || "";
+                        person["Square Feet"] =
+                            property.buildingArea === "--" ? "" : property.buildingArea;
+                        person.Address = property.address.length === 2 ? "" : property.address;
                         person.Street = property.street || "";
-                        person.City = property.city || "";
-                        person.State = property.state || "";
-                        person.Zip = property.zip || "";
+                        person.City = property.city.length === 2 ? "" : property.city;
+                        person.State = String(property.state).length === 2 ? property.state : "";
+                        person.Zip = property.zip.length === 2 ? "" : property.zip;
                         person.Email = property[`person-${num}_email`] || "";
                         person["Company Name"] = property.companyName || "";
                         person["Company Address"] = property.companyAddress || "";
-                        person["Year Built"] = property.yearBuild || "";
-                        person["Year Renovated"] = property.yearRenovated || "";
+                        person["Year Built"] =
+                            property.yearBuild === "--" ? "" : property.yearBuild;
+                        person["Year Renovated"] =
+                            property.yearRenovated === "--" ? "" : property.yearRenovated;
                         person["Building Type"] = property.type || "";
-                        person.Priority = 1;
                         person.Outreach = "Text";
                     }
                 } else {
@@ -55,20 +57,21 @@ const FILENAME = "";
                     person["First Name"] = property[`person-${num}_name`].split(" ")[0] || "";
                     person["Last Name"] =
                         property[`person-${num}_name`].split(" ").slice(1).join(" ") || "";
-                    person["Phone Number"] = "";
-                    person["Square Feet"] = property.buildingArea || "";
-                    person.Address = property.address || "";
+                    person["Phone Number"] = property[`person-${num}_mobile-${numMobile}`] || "";
+                    person["Square Feet"] =
+                        property.buildingArea === "--" ? "" : property.buildingArea;
+                    person.Address = property.address.length === 2 ? "" : property.address;
                     person.Street = property.street || "";
-                    person.City = property.city || "";
-                    person.State = property.state || "";
-                    person.Zip = property.zip || "";
+                    person.City = property.city.length === 2 ? "" : property.city;
+                    person.State = String(property.state).length === 2 ? property.state : "";
+                    person.Zip = property.zip.length === 2 ? "" : property.zip;
                     person.Email = property[`person-${num}_email`] || "";
                     person["Company Name"] = property.companyName || "";
                     person["Company Address"] = property.companyAddress || "";
-                    person["Year Built"] = property.yearBuild || "";
-                    person["Year Renovated"] = property.yearRenovated || "";
+                    person["Year Built"] = property.yearBuild === "--" ? "" : property.yearBuild;
+                    person["Year Renovated"] =
+                        property.yearRenovated === "--" ? "" : property.yearRenovated;
                     person["Building Type"] = property.type || "";
-                    person.Priority = 1;
                     person.Outreach = "Email";
                 }
 

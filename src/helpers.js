@@ -19,7 +19,7 @@ module.exports = {
         newContact["Zip"] = contact.zip || "";
         newContact["Email"] = contact[`${department}_Email_${num}`] || "";
         newContact["Company Name"] = contact[`${department}_Company`] || "";
-        newContact.Priority = 1;
+        // newContact.Priority = 1;
 
         return newContact;
     },
