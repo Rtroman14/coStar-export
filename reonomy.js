@@ -57,7 +57,7 @@ const FILENAME = "";
                     person["First Name"] = property[`person-${num}_name`].split(" ")[0] || "";
                     person["Last Name"] =
                         property[`person-${num}_name`].split(" ").slice(1).join(" ") || "";
-                    person["Phone Number"] = property[`person-${num}_mobile-${numMobile}`] || "";
+                    person["Phone Number"] = "";
                     person["Square Feet"] =
                         property.buildingArea === "--" ? "" : property.buildingArea;
                     person.Address = property.address.length === 2 ? "" : property.address;
