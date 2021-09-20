@@ -23,94 +23,6 @@ module.exports = {
 
         return newContact;
     },
-    // reformatContact(department, num, contact) {
-    //     const newContact = {};
-
-    //     // if ("image" in contact) {
-    //     //     newContact["Image"] = contact.image;
-    //     // } else {
-    //     //     newContact["Image"] = "";
-    //     // }
-
-    //     // newContact["Type"] = department;
-
-    //     if (`${department}_Name_${num}` in contact) {
-    //         newContact["Full Name"] = contact[`${department}_Name_${num}`];
-    //     } else {
-    //         newContact["Full Name"] = "";
-    //     }
-
-    //     if (`${department}_Name_${num}` in contact) {
-    //         newContact["First Name"] = contact[`${department}_Name_${num}`].split(" ")[0];
-    //         newContact["Last Name"] = contact[`${department}_Name_${num}`]
-    //             .split(" ")
-    //             .slice(1)
-    //             .join(" ");
-    //     } else {
-    //         newContact["First Name"] = "";
-    //         newContact["Last Name"] = "";
-    //     }
-
-    //     if (`${department}_Phone_${num}` in contact) {
-    //         newContact["Phone Number"] = contact[`${department}_Phone_${num}`];
-    //     } else {
-    //         newContact["Phone Number"] = "";
-    //     }
-
-    //     if ("sf" in contact) {
-    //         newContact["Square Feet"] = contact.sf;
-    //     } else {
-    //         newContact["Square Feet"] = "";
-    //     }
-
-    //     if ("address" in contact) {
-    //         newContact["Address"] = contact.address;
-    //     } else {
-    //         newContact["Address"] = "";
-    //     }
-
-    //     if ("street" in contact) {
-    //         newContact["Street"] = contact.street;
-    //     } else {
-    //         newContact["Street"] = "";
-    //     }
-
-    //     if ("city" in contact) {
-    //         newContact["City"] = contact.city;
-    //     } else {
-    //         newContact["City"] = "";
-    //     }
-
-    //     if ("state" in contact) {
-    //         newContact["State"] = contact.state;
-    //     } else {
-    //         newContact["State"] = "";
-    //     }
-
-    //     if ("zip" in contact) {
-    //         newContact["Zip"] = contact.zip;
-    //     } else {
-    //         newContact["Zip"] = "";
-    //     }
-
-    //     if (`${department}_Email_${num}` in contact) {
-    //         newContact["Email"] = contact[`${department}_Email_${num}`];
-    //     } else {
-    //         newContact["Email"] = "";
-    //     }
-
-    //     if (`${department}_Company` in contact) {
-    //         newContact["Company Name"] = contact[`${department}_Company`];
-    //     } else {
-    //         newContact["Company Name"] = "";
-    //     }
-
-    //     newContact.Priority = 1;
-
-    //     // newContact["Outreach"] = "Email";
-
-    //     return newContact;
-    // },
 
     removeMNumbers(mNumbers, pNumbers) {
         // remove mNumbers from pNumbers
@@ -138,6 +50,12 @@ module.exports = {
             console.log(error);
             return false;
         }
+    },
+
+    removeDuplicateByKey(objectArray, key) {
+        return objectArray.filter(
+            (value, index, array) => array.findIndex((t) => t[key] === value[key]) === index
+        );
     },
 
     // async checkDNC(phoneNumber) {
