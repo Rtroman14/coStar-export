@@ -1,7 +1,12 @@
+require("dotenv").config();
+
+const AirtableApi = require("./src/Airtable");
+const Airtable = new AirtableApi(process.env.AIRTABLE_API);
+
 const lookup = require("./src/validateNumber");
 const writeCsvFile = require("./src/writeCsv");
 const allData = require("./inputJSON/data.json");
-const { removeDuplicateByKey } = require("./src/helpers");
+const { removeDuplicateByKey, arrayDifference } = require("./src/helpers");
 
 console.log("allData =", allData.length);
 
@@ -9,16 +14,33 @@ const uniqueData = removeDuplicateByKey(allData, "Phone Number");
 
 console.log("uniqueData =", uniqueData.length);
 
+const baseID = "appYePO2J6QAQITxc"; // Farha
+
 let mNumbers = [];
 let pNumbers = [];
 
 let total = 0;
 
 (async () => {
+    let mobileContacts;
+
+    // filter current reonomy contacts against contacts in view: "Texted"
+    const airtableContacts = await Airtable.getFilteredRecords(baseID, {
+        field: "Outreach",
+        value: "Text",
+    });
+
+    if (airtableContacts) {
+        mobileContacts = arrayDifference(uniqueData, airtableContacts, "Phone Number");
+
+        console.log("airtableContacts length =", airtableContacts.length);
+        console.log("mobileContacts length =", mobileContacts.length);
+    }
+
     try {
         let name;
 
-        for (let data of uniqueData.slice(0, 800)) {
+        for (let data of mobileContacts) {
             total++;
 
             if (data["Full Name"] !== name) {
@@ -37,7 +59,7 @@ let total = 0;
             }
 
             total % 50 === 0 &&
-                console.log(`Contacts left to validate: ${uniqueData.length - total}`);
+                console.log(`Contacts left to validate: ${mobileContacts.length - total}`);
         }
 
         console.log("mNumbers total =", mNumbers.length);

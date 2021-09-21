@@ -58,6 +58,12 @@ module.exports = {
         );
     },
 
+    arrayDifference(newArray, array, key) {
+        return newArray.filter(
+            ({ [key]: value1 }) => !array.some(({ [key]: value2 }) => value2 === value1)
+        );
+    },
+
     // async checkDNC(phoneNumber) {
     //     try {
     //         const res = await axios({
