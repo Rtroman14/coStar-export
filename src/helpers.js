@@ -64,6 +64,10 @@ module.exports = {
         );
     },
 
+    numDigits(phoneNumber) {
+        return phoneNumber.replace(/[^0-9]/g, "").length;
+    },
+
     // async checkDNC(phoneNumber) {
     //     try {
     //         const res = await axios({
