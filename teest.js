@@ -10,11 +10,13 @@ const { removeDuplicateByKey, arrayDifference } = require("./src/helpers");
 
 console.log("allData =", allData.length);
 
-const uniqueData = removeDuplicateByKey(allData, "Phone Number");
+let uniqueData = removeDuplicateByKey(allData, "Phone Number");
 
 console.log("uniqueData =", uniqueData.length);
 
-const baseID = "appYePO2J6QAQITxc"; // Farha
+uniqueData = uniqueData.slice(1000);
+
+const baseID = "appH0GAnujL70nOuw"; // Farha
 
 let mNumbers = [];
 let pNumbers = [];
