@@ -6,7 +6,7 @@ const Airtable = new AirtableApi(process.env.AIRTABLE_API);
 const lookup = require("./src/validateNumber");
 const writeCsvFile = require("./src/writeCsv");
 const allData = require("./inputJSON/data.json");
-const { removeDuplicateByKey, arrayDifference } = require("./src/helpers");
+const { removeDuplicateByKey, arrayDifference, numDigits } = require("./src/helpers");
 
 console.log("allData =", allData.length);
 
@@ -14,9 +14,7 @@ let uniqueData = removeDuplicateByKey(allData, "Phone Number");
 
 console.log("uniqueData =", uniqueData.length);
 
-uniqueData = uniqueData.slice(1000);
-
-const baseID = "appH0GAnujL70nOuw"; // Farha
+const baseID = "appcUmDr9TwzP5QpN"; // Allstate Construction
 
 let mNumbers = [];
 let pNumbers = [];
@@ -37,6 +35,8 @@ let total = 0;
 
         console.log("airtableContacts length =", airtableContacts.length);
         console.log("mobileContacts length =", mobileContacts.length);
+    } else {
+        mobileContacts = uniqueData;
     }
 
     try {
@@ -45,7 +45,9 @@ let total = 0;
         for (let data of mobileContacts) {
             total++;
 
-            if (data["Full Name"] !== name) {
+            const isPhoneNumber = numDigits(data["Phone Number"] < 12);
+
+            if (data["Full Name"] !== name && isPhoneNumber) {
                 try {
                     const carrierType = await lookup(data["Phone Number"]);
 
@@ -60,7 +62,7 @@ let total = 0;
                 }
             }
 
-            total % 50 === 0 &&
+            total % 100 === 0 &&
                 console.log(`Contacts left to validate: ${mobileContacts.length - total}`);
         }
 
