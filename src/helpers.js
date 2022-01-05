@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const axios = require("axios");
 
+const lookup = require("./validateNumber");
+
 module.exports = {
     reformatContact(department, num, contact) {
         const newContact = {};
@@ -66,6 +68,22 @@ module.exports = {
 
     numDigits(phoneNumber) {
         return phoneNumber.replace(/[^0-9]/g, "").length;
+    },
+
+    async validateProspect(prospect) {
+        try {
+            const carrierType = await lookup(prospect["Phone Number"]);
+
+            if (carrierType?.carrier.type) {
+                return { ...prospect, phoneType: carrierType.carrier.type };
+            }
+
+            return { ...prospect, phoneType: "" };
+        } catch (error) {
+            console.log(error.message);
+
+            return { ...prospect, phoneType: "" };
+        }
     },
 
     // async checkDNC(phoneNumber) {

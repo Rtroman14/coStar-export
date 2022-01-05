@@ -11,10 +11,11 @@ const { removeDuplicateByKey, arrayDifference, numDigits } = require("./src/help
 console.log("allData =", allData.length);
 
 let uniqueData = removeDuplicateByKey(allData, "Phone Number");
+uniqueData = uniqueData.slice(0, 2000);
 
 console.log("uniqueData =", uniqueData.length);
 
-const baseID = "appcUmDr9TwzP5QpN"; // Allstate Construction
+const baseID = "appYePO2J6QAQITxc"; // McKinnis
 
 let mNumbers = [];
 let pNumbers = [];
@@ -45,9 +46,10 @@ let total = 0;
         for (let data of mobileContacts) {
             total++;
 
-            const isPhoneNumber = numDigits(data["Phone Number"] < 12);
+            // const isPhoneNumber = numDigits(data["Phone Number"] < 12);
 
-            if (data["Full Name"] !== name && isPhoneNumber) {
+            // if (data["Full Name"] !== name && isPhoneNumber) {
+            if (data["Full Name"] !== name) {
                 try {
                     const carrierType = await lookup(data["Phone Number"]);
 

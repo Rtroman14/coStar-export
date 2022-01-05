@@ -1,34 +1,35 @@
-const allData = require("./inputJSON/data.json");
-const lookup = require("./src/validateNumber");
+let allData = require("./inputJSON/data.json");
 const writeCsvFile = require("./src/writeCsv");
+const { validateProspect } = require("./src/helpers");
 
-let mNumbers = [];
-let pNumbers = [];
-
-let total = 0;
+// TODO: only validate in batches of 100.
 
 (async () => {
     try {
         console.log("Total numbers =", allData.length);
 
-        for (let data of allData) {
-            total++;
+        const validateNumbers = allData.map((prospect) => validateProspect(prospect));
 
-            try {
-                const carrierType = await lookup(data["Phone Number"]);
-                carrierType.carrier.type === "mobile" ? mNumbers.push(data) : pNumbers.push(data);
-            } catch (error) {
-                console.log(error.message);
+        const validatedNumbers = await Promise.all(validateNumbers);
+
+        let mobileProspects = [];
+        let emailProspect = [];
+
+        validatedNumbers.forEach((prospect) => {
+            if (prospect.phoneType === "mobile") {
+                mobileProspects.push({ ...prospect, Outreach: "Text" });
             }
 
-            total % 100 === 0 &&
-                console.log(`Contacts left to validate: ${allData.length - total}`);
-        }
+            if (prospect.phoneType !== "mobile") {
+                emailProspect.push({ ...prospect, Outreach: "Email" });
+            }
+        });
 
-        console.log("mNumbers total =", mNumbers.length);
-        console.log("pNumbers total =", pNumbers.length);
+        console.log("mobileProspects total =", mobileProspects.length);
+        console.log("emailProspect total =", emailProspect.length);
 
-        writeCsvFile(mNumbers, "mNumbers");
+        writeCsvFile(mobileProspects, "mobileProspects");
+        writeCsvFile(emailProspect, "emailProspect");
     } catch (error) {
         console.log(error);
     }
