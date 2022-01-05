@@ -2,20 +2,30 @@ let allData = require("./inputJSON/data.json");
 const writeCsvFile = require("./src/writeCsv");
 const { validateProspect } = require("./src/helpers");
 
-// TODO: only validate in batches of 100.
+let numProspects = 100;
+let iterations = Math.ceil(allData.length / numProspects);
 
 (async () => {
     try {
         console.log("Total numbers =", allData.length);
 
-        const validateNumbers = allData.map((prospect) => validateProspect(prospect));
+        let mobileNumbers = [];
 
-        const validatedNumbers = await Promise.all(validateNumbers);
+        for (let i = 1; i <= iterations; i++) {
+            let prospects = allData.splice(0, numProspects);
+
+            const validateNumbers = prospects.map((prospect) => validateProspect(prospect));
+            const validatedNumbers = await Promise.all(validateNumbers);
+
+            mobileNumbers = [...mobileNumbers, ...validatedNumbers];
+
+            console.log(`Validated: ${validatedNumbers.length} numbers`);
+        }
 
         let mobileProspects = [];
         let emailProspect = [];
 
-        validatedNumbers.forEach((prospect) => {
+        mobileNumbers.forEach((prospect) => {
             if (prospect.phoneType === "mobile") {
                 mobileProspects.push({ ...prospect, Outreach: "Text" });
             }
